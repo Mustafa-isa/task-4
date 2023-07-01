@@ -16,7 +16,7 @@ mongoose
 
     // Start the server only after successful connection to the database
     app.listen(4000, () => {
-      console.log("Server started on port 3000");
+      console.log("Server started on port 4000");
     });
   })
   .catch(err => {

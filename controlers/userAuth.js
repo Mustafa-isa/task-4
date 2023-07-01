@@ -33,7 +33,7 @@ function loginUser(req, res) {
         return res.status(401).json({ error: 'Invalid credentials' });
       }
 
-      res.status(200).json(user);
+      res.status(200).json({name:"msuatafa"});
     })
     .catch((err) => {
       res.status(400).json({ error: err.message });

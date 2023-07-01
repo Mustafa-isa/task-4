@@ -2,6 +2,8 @@ import {React ,useState } from 'react'
 import styled from 'styled-components';
 import registerLo from '../assets/registerDiv.jpg'
 import './regsiter.css'
+import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
 const Img= styled.img`
 width:100%;
 height:100%;
@@ -29,7 +31,7 @@ align-items: center;
 `
 
 function Register() {
-  
+  const navigate =useNavigate()
   const [formState, setFormState] = useState({
     email: '',
     password: '',
@@ -53,12 +55,61 @@ function Register() {
   const toggleFormMode = () => {
     setFormState((prevState) => ({ ...prevState, isLoginForm: !prevState.isLoginForm }))
   }
+
+  // register func
+  const registerFunc =()=>{
+    const  {
+      email ,
+      password ,
+      confirmPassword ,
+      username ,
+      phone ,
+      birthday,
+      isLoginForm // indicates whether the form is in login mode or not
+    }  = formState
+    const data = { email ,
+      password ,
+      username ,
+      phone ,
+      birthday}
+    if(email === '' || password ==="" || username=== "" || phone  === "" || birthday === "" ){
+
+      toast.info('🦄 please enter vaild inputs', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
+    }else{
+      fetch('http://localhost:4000/api/v1/register', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+        .then(response => response.json())
+        .then(data => 
+          
+          
+          navigate('/dashboard')
+          
+          
+          )
+        .catch(error => console.log("there an error happen"));
+    }
+  }
   return (
 <Container>
 
 <Content>
 <Img src={registerLo}/>
 <div className='parentDivUserData'>
+
 <div className="container">
       <h1 className="title">{formState.isLoginForm ? 'Login' : ' Register'}</h1>
       <form className="form" onSubmit={handleFormSubmit}>
@@ -117,7 +168,7 @@ function Register() {
               required
               className="input"
             />
-            <button type="submit" className="button">Register</button>
+            <button onClick={registerFunc} type="submit" className="button">Register</button>
           </>
         )}
         {formState.isLoginForm && (
@@ -154,6 +205,19 @@ function Register() {
     </div>
 
 </Content>
+<ToastContainer
+position="top-right"
+autoClose={5000}
+
+hideProgressBar={false}
+newestOnTop={false}
+closeOnClick
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover
+theme="dark"
+/>
 </Container>
   )
 }
