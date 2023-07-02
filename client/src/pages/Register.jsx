@@ -4,6 +4,7 @@ import registerLo from '../assets/registerDiv.jpg'
 import './regsiter.css'
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const Img= styled.img`
 width:100%;
 height:100%;
@@ -74,7 +75,7 @@ function Register() {
       birthday}
     if(email === '' || password ==="" || username=== "" || phone  === "" || birthday === "" ){
 
-      toast.info('🦄 please enter vaild inputs', {
+      toast.info('please enter vaild', {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
